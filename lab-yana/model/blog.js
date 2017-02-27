@@ -28,13 +28,11 @@ Blog.createBlog = function(_blog) {
 Blog.fetchBlog = function(id) {
   debug('fetchBlog');
   return storage.fetchItem('blog', id);
-
 };
 
 Blog.deleteBlog = function(id) {
   debug('deleteItem');
   return storage.deleteItem('blog', id);
-
 };
 
 Blog.updateBlog = function(id, newContent) {
