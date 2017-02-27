@@ -43,32 +43,13 @@ exports.deleteItem = function(schemaName, id) {
   .catch(err => { return Promise.reject(createError(500, err.message)); }) ;
 };
 
-exports.changeItem = function(schemaName, id, newContent) {
-  debug('changeItem');
-  if (!newContent) return Promise.reject(createError(400, 'expected item'));
-  let item = exports.fetchItem(schemaName, id);
-  console.dir('item', item);
-};
-
-// exports.fetchList = function(schemaName) {
-//   return new Promise((resolve, reject) => {
-//     if (!schemaName) return reject(new Error('expected schema name'));
-//     let list = fs.readdir(`${__dirname}/../data/${schemaName}`);
-//     console.log('list', list);
-//     if (list.length === 0) return resolve(`no ${schemaName} entries available`);
-//     if (list !== null) resolve(list);
-//     resolve();
-//   });
-// };
 
 exports.fetchList = function(schemaName) {
   if (!schemaName) return Promise.reject(createError(400, 'expected schema name'));
-  let list = fs.readdir(`${__dirname}/../data/${schemaName}`, function() {
-    try { return JSON.parse(list.toString()); }
-    catch(err) { return Promise.reject(createError(500, err.message)); }
-  });
-  console.log('list', list);
-  return list;
+  return fs.readdirProm(`${__dirname}/../data/${schemaName}`)
+    .then(list => { return list; } )
+    .catch(err => { return Promise.reject(createError(500, err.message)); });
+};
   //   {
   //   try {
   //     console.log('list', list);
@@ -76,4 +57,22 @@ exports.fetchList = function(schemaName) {
   //     return Promise.resolve(list);
   //   } catch(err) { return Promise.reject(err); }
   // })
+
+exports.changeItem = function(schemaName, id, newContent) {
+  debug('changeItem');
+  if (!newContent) return Promise.reject(createError(400, 'expected item'));
+  let item = exports.fetchItem(schemaName, id);
+  console.dir('item', item);
 };
+// exports.fetchList = function(schemaName) {
+//   return new Promise((resolve, reject) => {
+//     if (!schemaName) return reject(new Error('expected schema name'));
+//     var list = fs.readdirProm(`${__dirname}/../data/${schemaName}`);
+//     if (!(list === undefined)) {
+//       console.log('list', list);
+//       if (list.length === 0) return resolve(`no ${schemaName} entries available`);
+//       if (list !== null) resolve(list);
+//     }
+//     reject(createError(404, 'files not found'));
+//   });
+// };

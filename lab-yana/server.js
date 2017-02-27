@@ -27,6 +27,13 @@ app.get('/api/blog/:id', function(req, res, next) {
   .catch(err => next(err));
 });
 
+app.get('/api/blog', parseJSON, function(req, res, next){
+  debug('GET list: /api/blog');
+  Blog.fetchBlogList()
+  .then(list => res.json(list))
+  .catch(err => next(err));
+});
+
 app.delete('/api/blog/:id', function(req, res, next) {
   debug('DELETE: /api/blog');
   Blog.deleteBlog(req.params.id)
