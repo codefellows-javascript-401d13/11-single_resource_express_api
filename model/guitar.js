@@ -30,5 +30,5 @@ Guitar.createGuitar = function(_guitar) {
 
 Guitar.fetchGuitar = function(id) {
   debug('fetch guitar');
-  storage.fetchItem('guitar', id);
+  return storage.fetchItem('guitar', id);
 };

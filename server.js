@@ -25,6 +25,8 @@ app.post('/api/guitar/', jsonParser, function(req, res, next) {
 app.get('/api/guitar/:id', function(req, res, next) {
   debug('GET: api/guitar');
 
+  console.log('params.id:', req.params.id);
+
   Guitar.fetchGuitar(req.params.id)
   .then( guitar => res.json(guitar))
   .catch( err => next(err));
