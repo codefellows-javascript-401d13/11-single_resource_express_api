@@ -1,6 +1,6 @@
 'use strict';
 
-const randomID = require('node-uuid').v1();
+const randomID = require('node-uuid');
 const createError = require('http-errors');
 const debug = require('debug')('blog:blog');
 const storage = require('../lib/storage.js');
@@ -10,7 +10,7 @@ const Blog = module.exports = function(name, content) {
   if (!name) throw createError(400, 'name expected');
   if (!content) throw createError(400, 'content expected');
 
-  this.id = randomID();
+  this.id = randomID.v1();
   this.name = name;
   this.content = content;
 };

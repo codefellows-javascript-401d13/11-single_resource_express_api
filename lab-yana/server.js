@@ -22,9 +22,17 @@ app.post('/api/blog', parseJSON, function(req, res, next) {
 
 app.get('/api/blog/:id', function(req, res, next) {
   debug('GET: /api/blog');
-  console.log('id', req.params.id);
   Blog.fetchBlog(req.params.id)
   .then(blog => res.json(blog))
+  .catch(err => next(err));
+});
+
+app.delete('/api/blog/:id', function(req, res, next) {
+  debug('DELETE: /api/blog');
+  Blog.deleteBlog(req.params.id)
+  .then( () => {
+    res.json();
+  })
   .catch(err => next(err));
 });
 
