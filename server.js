@@ -17,18 +17,25 @@ app.post('/api/guitar/', jsonParser, function(req, res, next) {
   debug('POST: api/guitar/');
 
   Guitar.createGuitar(req.body)
-  .then(guitar => res.json(guitar))
-  .catch(err => next(err));
+  .then( guitar => res.json(guitar))
+  .catch( err => next(err));
 
 });
 
 app.get('/api/guitar/:id', function(req, res, next) {
   debug('GET: api/guitar');
 
-  console.log('params.id:', req.params.id);
-
   Guitar.fetchGuitar(req.params.id)
   .then( guitar => res.json(guitar))
+  .catch( err => next(err));
+
+});
+
+app.delete('/api/guitar/:id', function(req, res, next) {
+  debug('DELETE: api/guitar');
+
+  Guitar.deleteGuitar(req.params.id)
+  .then( () => res.status(204).send('No Content'))
   .catch( err => next(err));
 
 });

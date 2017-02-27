@@ -32,3 +32,8 @@ Guitar.fetchGuitar = function(id) {
   debug('fetch guitar');
   return storage.fetchItem('guitar', id);
 };
+
+Guitar.deleteGuitar = function(id) {
+  debug('delete guitar');
+  return storage.deleteItem('guitar', id);
+};
