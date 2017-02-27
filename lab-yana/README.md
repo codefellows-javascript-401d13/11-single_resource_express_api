@@ -19,21 +19,21 @@ This is a single resource API using express middleware to make creating a server
   ```
 * in a new terminal window, do the stuff! Here are your options:
   - look at a blog entry:
-  ```
-  $ http :3003/api/blog/<blog id>
-  ```
+    ```
+    $ http :3003/api/blog/blogID
+    ```
   - upload a blog entry:
-  ```
-  $ http POST :3003/api/blog name="<blog entry name>" content="<blog entry contents"
-  ```
+    ```
+    $ http POST :3003/api/blog name="blog entry name" content="blog entry contents"
+    ```
   - look at a list of IDs of available blog entries (so you know how to look up a specific one!):
-  ```
-  $ http :3003/api/blog
-  ```
+    ```
+    $ http :3003/api/blog
+    ```
   - delete a blog entry:
-  ```
-  $ http DELETE :3003/api/blog/<blog id>
-  ```
+    ```
+    $ http DELETE :3003/api/blog/blogID
+    ```
 
 That's it!
 
