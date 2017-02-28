@@ -70,7 +70,29 @@ describe('Oohdata Routes', function() {
         expect(err).to.equal.null;
         expect(res.text).to.equal('NotFoundError');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
+
+  describe('DELETE: /api/oohdata', function() {
+    it('should return a 204 if given a correct id and route', function(done) {
+      request.delete(`localhost:3000/api/oohdata/${oohdata.id}`)
+      .end((err, res) => {
+        if(err) return done(err);
+        expect(res.status).to.equal(204);
+        done();
+      });
+    });
+  });
+
+  describe('DELETE: /api/oohdata', function() {
+    it('should return a 404 if given a bad id', function(done) {
+      request.delete('localhost:3000/api/oohdata/72727272')
+      .end((err, res) => {
+        expect(err).to.be.an('error');
+        expect(res.status).to.equal(404);
+        done();
+      });
+    });
+  });
 });

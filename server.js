@@ -46,7 +46,8 @@ app.get('/api/oohdata/:id', function(req, res, next) {
 app.delete('/api/oohdata/:id', function(req, res, next) {
   debug('DELETE: /api/oohdata');
 
-  Oohdata.deleteItem('oohdata', req.params.id)
+  Oohdata.deleteItem(req.params.id)
+  .then( () => res.sendStatus(204))
   .catch( err => next(err));
   next();
 });
