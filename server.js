@@ -43,13 +43,15 @@ app.get('/api/journal/', function(req, res, next) {
   .catch( err => next(err));
 });
 
-app.delete('/api/portfolio', function(req, res, next){
+app.delete('/api/journal:id', function(req, res, next){
   debug('DELETE: /api/journal');
 
-  Journal.deleteJournal('journal', req.query.id)
-  .then( () => debug('portfolio', req.query.id))
+  Journal.deleteJournal(req.params.id)
+  .then( () => {
+    res.sendStatus(204);
+    res.json();
+  })
   .catch( err => next(err));
-  next();
 });
 
 app.use(function(err, req, res, next){
