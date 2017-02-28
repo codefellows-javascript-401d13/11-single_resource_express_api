@@ -1,0 +1,32 @@
+{
+  "name": "11-single_resource_express_api",
+  "version": "1.0.0",
+  "description": "![CF](https://camo.githubusercontent.com/70edab54bba80edb7493cad3135e9606781cbb6b/687474703a2f2f692e696d6775722e636f6d2f377635415363382e706e67) Lab 11: Single Resource Express API ===",
+  "main": "index.js",
+  "scripts": {
+    "start": "DEBUG='memo*' node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jtwalters25/11-single_resource_express_api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jtwalters25/11-single_resource_express_api/issues"
+  },
+  "homepage": "https://github.com/jtwalters25/11-single_resource_express_api#readme",
+  "dependencies": {
+    "bluebird": "^3.4.7",
+    "body-parser": "^1.16.1",
+    "chai": "^3.5.0",
+    "debug": "^2.6.1",
+    "express": "^4.14.1",
+    "http-errors": "^1.6.1",
+    "mocha": "^3.2.0",
+    "morgan": "^1.8.1",
+    "node-uuid": "^1.4.7",
+    "superagent": "^3.5.0"
+  }
+}
