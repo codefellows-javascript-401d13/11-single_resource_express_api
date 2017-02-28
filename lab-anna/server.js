@@ -22,23 +22,23 @@ app.get('/test', function(req, res) {
 app.post('/api/cat', jsonParser, function(req, res, next) {
   debug('POST: /api/cat');
 
-  Cat.createCat(req.body)
-  .then( note => res.json(cat))
+  Cat.createItem(req.body)
+  .then( cat => res.json(cat))
   .catch( err => next(err));
 });
 
 app.put('/api/cat', jsonParser, function(req, res, next) {
   debug('PUT: /api/cat');
 
-  Cat.createCat(req.body)
-  .then( note => res.json(cat))
+  Cat.createItem(req.body)
+  .then( cat => res.json(cat))
   .catch( err => next(err));
 });
 
 app.get('/api/cat', function(req, res, next) {
   debug('GET: /api/cat');
 
-  Cat.fetchCat(req.query.id)
+  Cat.fetchItem(req.query.id)
   .then( cat => res.json(cat))
   .catch( err => next(err));
 });
@@ -46,7 +46,7 @@ app.get('/api/cat', function(req, res, next) {
 app.delete('/api/cat', function(req, res, next) {
   debug('DELETE: /api/cat');
 
-  Cat.deleteCat(req.query.id)
+  Cat.deleteItem(req.query.id)
   .then( () => res.status(204).json({}))
   .catch( err => next(err));
 });

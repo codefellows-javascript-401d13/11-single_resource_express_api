@@ -31,3 +31,8 @@ Cat.fetchItem = function(id) {
   debug('fetch cat');
   return storage.fetchItem('cat', id);
 };
+
+Cat.deleteItem = function(id) {
+  debug('fetch cat');
+  return storage.fetchItem('cat', id);
+};
