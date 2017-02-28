@@ -29,27 +29,30 @@ app.post('/api/memo', jsonParser, function(req, res, next) {
     .catch( err => next(err));
 });
 
-app.get('/api/memo/:memoId', function(req, res, next) {
-  debug('GET: /api/memo/memoId');
+app.get('/api/memo/:id', function(req, res, next) {
+  debug('GET: /api/memo');
 
-  Memo.fetchMemo(req.params.memoId)
+  Memo.fetchMemo(req.params.id)
     .then( memo => res.json(memo))
     .catch( err => next(err));
 });
 
-app.put('/api/memo/:id', jsonParser, function(req, res, next){
-  debug('PUT: /api/memo');
+app.get('/api/memo/', function(req, res, next){
+  debug('GET: /api/memo');
 
-  Memo.updateMemo(req.params.id, req.body)
+  Memo.fetchMemo(req.params.id)
     .then( memo => res.json(memo))
     .catch( err => next(err));
 });
 
-app.delete('/api/memo/:memoId', function(req, res, next){
+app.delete('/api/memo/:id', function(req, res, next){
   debug('DELETE: /api/memo');
 
-  Memo.deleteMemo(req.params.memoId)
-     .then(() => res.status(204).send())
+  Memo.deleteMemo(req.params.id)
+     .then( () => {
+       res.sendStatus(204);
+       res.json();
+     })
      .catch( err => next(err)); 
 });
 
@@ -62,7 +65,7 @@ app.use(function(err, req, res, next) {
     return;
   }
 
-  err = createError(500, err, message);
+  err = createError(500, err.message);
   res.status(err.status).send(err.name);
 });
 

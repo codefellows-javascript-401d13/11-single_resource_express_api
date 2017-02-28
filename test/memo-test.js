@@ -3,10 +3,10 @@
 const request = require('superagent');
 const expect = require('chai').expect;
 
-// require('../server.js');
+require('../server.js');
 
 describe('My Memo Routes', function(){
-  var memo = '';
+  var memo = 'null';
 
   describe('test for POST: /api/memo', function() {
     it('it should return memo', function(done){
@@ -25,7 +25,7 @@ describe('My Memo Routes', function(){
   describe('POST: api/memo', function() {
     it('it should return a 400 error', function(done){
       request.post('localhost:8000/api/memo')
-     .send({})
+     .send()
      .end((err, res) => {
        expect(res.status).to.equal(400);
        expect(res.text).to.equal('BadRequestError');
@@ -53,6 +53,7 @@ describe('My Memo Routes', function(){
       request.get('localhost:8000/api/memo')
      .end((err, res) => {
        expect(res.status).to.equal(400);
+       expect(res.body.id).to.equal(undefined);
        done();
      });
     });
@@ -66,25 +67,6 @@ describe('My Memo Routes', function(){
        expect(res.text).to.equal('NotFoundError');
        done(); 
      }); 
-    });
-  });
-
-  describe('DELETE: /api/memo', function() {
-    it('it should delete memo', function(done){
-      request.delete(`localhost:8000/api/memo/${memo.id}`)
-     .end((err, res) => {
-       expect(res.status).to.equal(204);
-       expect(res.text).to.be.empty;
-       done(); 
-     });
-    });
-    it('should fail to get a deleted entry', function(done){
-      request.get(`localhost:8000/api/memo/${memo.id}`)
-     .end((err, res) => {
-       expect(err).to.be.an('error');
-       expect(res.status).to.equal(404);
-       done();
-     });
     });
   });
 });

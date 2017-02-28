@@ -19,34 +19,21 @@ const Memo = module.exports = function(title, entry) {
 //static method is not instantiated on the object
 //interface layer to be able to create new item
 Memo.createMemo = function(_memo){
-  debug('createMemo', _memo);
+  debug('createMemo');
 
   try{
     let memo = new Memo(_memo.title, _memo.entry);
-    return storage.createMemo('memo', memo);
+    return storage.createItem('memo', memo);
   } catch (err) {
     return Promise.reject(err);
   }
 };
 
 Memo.fetchMemo = function(id) {
-  debug('fetchMemo', id);
+  debug('fetchMemo');
   return storage.fetchItem('memo', id);
 };
 
-// Memo.updateMemo = function(id, _memo){
-//   debug('updateMemo');
-//   return storage.updateMemo('memo', id)
-//   .catch(err => Promise.reject(createError(404, err,message)))
-//   .then(_memo => {
-//      try{
-//     let memo = new Memo(_memo.title, _memo.entry);
-//     return storage.createMemo('memo', memo);
-//   } catch (err) {
-//     return Promise.reject(err);
-//   };
-// }
-// };
 
 Memo.deleteMemo = function(id) {
   debug('deleteMemo', id);
