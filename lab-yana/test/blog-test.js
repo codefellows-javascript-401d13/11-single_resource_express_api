@@ -62,28 +62,28 @@ describe('Blog Routes', function() {
       });
     });
   });
-  // describe('GET: /api/blog', function() {
-  //   it('should return a blog entry', function(done) {
-  //     request.get(`localhost:3003/api/blog/${blog.id}`)
-  //     .send( { name: 'test name', content: 'test content' } )
-  //     .end((err, res) => {
-  //       if (err) return done(err);
-  //       expect(res.status).to.equal(200);
-  //       expect(res.body.name).to.equal('test name');
-  //       expect(res.body.content).to.equal('test content');
-  //       blog = res.body;
-  //       done();
-  //     });
-  //   });
-  //   it('should return a 404 not found', function(done) {
-  //     request.get('localhost:3003/api/blog/wrongID')
-  //     .send( { name: 'test name', content: 'test content' } )
-  //     .end((err, res) => {
-  //       expect(err).to.be.an('error');
-  //       expect(res.status).to.equal(404);
-  //       done();
-  //     });
-  //   });
+  describe('GET: /api/blog', function() {
+    it('should return a blog entry', function(done) {
+      request.get(`localhost:3003/api/blog/${blog.id}`)
+      .send( { name: 'test name', content: 'test content' } )
+      .end((err, res) => {
+        if (err) return done(err);
+        expect(res.status).to.equal(200);
+        expect(res.body.name).to.equal('test name');
+        expect(res.body.content).to.equal('test content');
+        blog = res.body;
+        done();
+      });
+    });
+    it('should return a 404 not found', function(done) {
+      request.get('localhost:3003/api/blog/wrongID')
+      .send( { name: 'test name', content: 'test content' } )
+      .end((err, res) => {
+        expect(err).to.be.an('error');
+        expect(res.status).to.equal(404);
+        done();
+      });
+    });
     // it('should return a list of stored blog entry filenames', function(done) {
     //   var list = []; //array to store list of test IDs
     //   list.push(`${blog.id}.json`); //put the thing we stored from the initial POST above
@@ -115,23 +115,14 @@ describe('Blog Routes', function() {
     //     done();
     //   });
     // });
-    // it('should return a 400 bad request', function(done) {
-    //   request.get('localhost:3003/api/blog')
-    //   .send( { name: 'test name', content: 'test content' } )
-    //   .end((err, res) => {
-    //     expect(err).to.be.an('error');
-    //     expect(res.status).to.equal(400);
-    //     done();
-    //   });
-    // });
-  // });
+  });
   describe('DELETE: /api/blog', function() {
     it('should delete a blog entry', function(done) {
       request.delete(`localhost:3003/api/blog/${blog.id}`)
       .send( { name: 'test name', content: 'test content' } )
       .end((err, res) => {
         if (err) return done(err);
-        // expect(res.status).to.equal(204);
+        expect(res.status).to.equal(204);
         expect(res.body).to.be.empty;
         done();
       });

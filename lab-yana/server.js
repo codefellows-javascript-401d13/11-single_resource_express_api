@@ -30,7 +30,7 @@ app.get('/api/blog/:id', function(req, res, next) {
 app.get('/api/blog', parseJSON, function(req, res, next){
   debug('GET list: /api/blog');
   Blog.fetchBlogList()
-  .then(list => res.json(list))
+  .then(list => { res.json(list); })
   .catch(err => next(err));
 });
 
@@ -38,8 +38,16 @@ app.delete('/api/blog/:id', function(req, res, next) {
   debug('DELETE: /api/blog');
   Blog.deleteBlog(req.params.id)
   .then( () => {
+    res.sendStatus(204);
     res.json();
   })
+  .catch(err => next(err));
+});
+
+app.put('/api/blog/:id', function(req, res, next) {
+  debug('PUT: /api/blog');
+  Blog.updateBlog(req.params.id, req.body)
+  .then(blog => res.json(blog))
   .catch(err => next(err));
 });
 
