@@ -4,7 +4,7 @@
   "description": "![CF](https://camo.githubusercontent.com/70edab54bba80edb7493cad3135e9606781cbb6b/687474703a2f2f692e696d6775722e636f6d2f377635415363382e706e67) Lab 11: Single Resource Express API ===",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "DEBUG='blog*' node server.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +18,12 @@
   },
   "homepage": "https://github.com/sueanyv/11-single_resource_express_api#readme",
   "devDependencies": {
+    "bluebird": "^3.4.7",
+    "body-parser": "^1.16.1",
+    "debug": "^2.6.1",
+    "express": "^4.14.1",
+    "http-errors": "^1.6.1",
+    "morgan": "^1.8.1",
     "node-uuid": "^1.4.7"
   }
 }
