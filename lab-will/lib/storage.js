@@ -36,3 +36,15 @@ exports.fetchItem = function (schemaName, id) {
   })
   .catch(err => Promise.reject(createError(404, err.message)));
 };
+
+exports.deleteItem = function (schemaName, id) {
+  if(!schemaName) return Promise,reject(createError(400, 'expected schemaName'));
+  if(!id) return Promise.reject(createError(400, 'expected id'));
+  const path = `${__dirname}/../data/${schemaName}/${id}.json`;
+
+  return fs.unlinkProm(path)
+  .then( () => {
+    console.log('success');
+  })
+  .catch( err => Promise.reject(createError(204, err.message)))
+};

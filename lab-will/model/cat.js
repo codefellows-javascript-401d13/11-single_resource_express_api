@@ -5,7 +5,7 @@ const createError = require('http-errors');
 const debug = require('debug')('cat:cat');
 const storage = require('../lib/storage.js');
 
-const Cat = module.exports = function(came, content) {
+const Cat = module.exports = function(name, content) {
   debug('cat constructor');
 
   if(!name) throw createError(400, 'expected name');
@@ -30,4 +30,9 @@ Cat.createCat = function(_cat) {
 Cat.fetchCat = function(id) {
   debug('fetchCat');
   return storage.fetchItem('cat', id);
+}
+
+Cat.deleteCat = function(id) {
+  debug('deleteCat');
+  return storage.deleteItem('cat', id);
 }
