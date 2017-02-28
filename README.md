@@ -1,48 +1,27 @@
-![CF](https://camo.githubusercontent.com/70edab54bba80edb7493cad3135e9606781cbb6b/687474703a2f2f692e696d6775722e636f6d2f377635415363382e706e67) Lab 11: Single Resource Express API
-===
+# Single Resource Express-API
 
-## To Submit this Assignment
-  * Fork this repository
-  * Write all of your code in a directory named `lab-` + `<your name>` **e.g.** `lab-brian`
-  * Push to your repository
-  * Submit a pull request to this repository
-  * Submit a link to your PR in canvas
-  * Write a question and observation on canvas
+This was our first foray into using Express and all its wonderful abstraction of our previously manual routes and CRUD methods. What a wonderful day indeed! Along with Express, we introduced a couple supplemental concepts used in automating our tests and debugging processes.
 
-## Include
-  * `package.json`
-  * `.eslintrc`
-  * `gulpfile.js`
-  * `.gitignore`
-  * `README.md`
-    * your `README.md` should include detailed instructions on how to use your API
+### Automation Features
+Using the "Debug" and "Morgan" modules (both Vision Media), a new form of feedback in the terminal has been implemented. Instead of using ```console.log``` throughout the majority of the codebase, Debug/Morgan can provide more meaningful, traceable, and informative debugging interface - especially when stack-tracing for HTTP requests. The "HTTP-Errors" module was also utilized in the sending of status messages.
 
-## Description
-  * Create an HTTP server using `express`
-  * Create a object constructor that creates a _simple resource_ with at least 3 properties
-    * it can **not** have the same properties as the in-class sample code (other than the `id`)
-    * a unique `id` property should be included *(node-uuid)*
-    * include two additional properties of your choice
-  * Use the JSON parser included with the `body-parser` module as a middleware component to parse the request body on `POST` and `PUT` routes
-  * Use the npm `debug` module to log the methods in your application
-  * Create an `npm` script to automate the `debug` process and start the server
-  * Persist your API data using the storage module and file system persistence
+#### Sample Routes:
+Using express I created simple CRUD routes to create and manage 'Guitar' objects. Here's an example of creating a new 'Guitar' in persisted memory ('fs) using HTTPie's CLI:
+```
+http POST :[PORT]/api/guitar?type=[type]&make=[make]&name=[name]
+```
+Where ```[PORT]``` is the user's current server port number. (default is 3000)
+Where ```[name]```,```[make]``` and ```[type]``` are strings that can be chosen to represent a guitar.
 
-## Server Endpoints
-  * **`/api/simple-resource-name`**
-  * `POST` request
-   * pass data as stringifed JSON in the body of a **POST** request to create a new resource
-  * `GET` request
-   * pass `?id=<uuid>` as a query string parameter to retrieve a specific resource (as JSON)
-  * `DELETE` request
-   * pass `?id=<uuid>` in the query string to **DELETE** a specific resource
-   * this should return a 204 status code with no content in the body
+Example query:
+```localhost:3000/api/guitar?name=stratocaster&make=fender&type=electric```
 
-## Tests
-  * write a test to ensure that your api returns a status code of 404 for routes that have not been registered
-  * write tests to ensure the `/api/simple-resource-name` endpoint responds as described for each condition below:
-   * `GET`: test 404, it should respond with 'not found' for valid requests made with an id that was not found
-   * `GET`: test 400, it should respond with 'bad request' if no id was provided in the request
-   * `GET`: test 200, it should contain a response body for a request made with a valid id
-   * `POST`: test 400, it should respond with 'bad request' if no request body was provided or the body was invalid
-   * `POST`: test 200, it should respond with the body content for a post request with a valid body
+#### Built Using:
+-"Express" - (expressjs.com)
+-"Morgan" - (https://github.com/expressjs/morgan)
+-"Debug" - (https://github.com/visionmedia/debug)
+-"HTTP-Errors" - (NPM)
+-"Body-Parser" - (NPM)
+-"Node-UUID" - (NPM)
+-"HTTPie' - (https://httpie.org)
+-"Bluebird" - (http://bluebirdjs.com/)
