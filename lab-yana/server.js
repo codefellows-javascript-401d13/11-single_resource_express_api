@@ -43,15 +43,22 @@ app.delete('/api/blog/:id', function(req, res, next) {
   .catch(err => next(err));
 });
 
-app.use(function(err, req, res) {
-  debug('error middleware');
-  if (err.status) {
-    res.status(err.status).send(err.message);
-    return;
-  }
-  err = createError(500, err.message);
+app.all('*', function(err, req, res, next) {
+  debug('ALL: *');
+  err = createError(404, 'not found');
   res.status(err.status).send(err.message);
+  next();
 });
+
+// app.use(function(err, req, res) {
+//   debug('error middleware');
+//   if (err.status) {
+//     res.status(err.status).send(err.message);
+//     return;
+//   }
+//   err = createError(500, err.message);
+//   res.status(err.status).send(err.message);
+// });
 
 app.listen(PORT, () => {
   debug('server up', PORT);
