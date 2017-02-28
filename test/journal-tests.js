@@ -70,26 +70,4 @@ describe('My Journal Routes', function(){
       });
     });
   });
-
-  //http :3000/api/journal/4f1ad740-fd57-11e6-b209-4161c6c95e8f
-
-  describe('DELETE: /api/journal', function(){
-    it('should delete an item', function(done) {
-      request.delete(`localhost:3000/api/journal/${journal.id}`)
-      .end((err, res) => {
-        if (err) return done(err);
-        expect(res.status).to.equal(204);
-        expect(res.body).to.be.empty;
-        done();
-      });
-    });
-    it('should fail to get a deleted entry', function(done){
-      request.get(`localhost:3000/api/journal/${journal.id}`)
-      .end((err, res) => {
-        expect(err).to.be.an('error');
-        expect(res.status).to.equal(404);
-        done();
-      });
-    });
-  });
 });

@@ -28,13 +28,18 @@ Journal.createJournal = function(_journal) {
 };
 
 Journal.fetchJournal = function(id) {
-  debug('fetch journal');
+  debug('fetchJournal');
   return storage.fetchItem('journal', id);
 };
 
 
 //delete method below
 Journal.deleteJournal = function(id) {
-  debug('deleteJournal');
-  return storage.deleteJournal('portfolio', id);
+  debug('deleteJournal', id);
+  return storage.deleteItem('portfolio', id);
+
+  Journal.fetchIDs = function () {
+    debug('fetchIDs');
+    return storage.availIDs('journal');
+  }
 };
