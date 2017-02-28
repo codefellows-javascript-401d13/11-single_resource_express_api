@@ -21,7 +21,7 @@ app.post('/api/sneaker', jsonParser, function(req, res, next) {
   .catch( err => next(err));
 });
 
-app.get('/api/sneaker/:id', function(req, res, next) {
+app.get('/api/sneaker/:id?', function(req, res, next) {
   debug('GET: /api/sneaker');
 
   Sneaker.fetchSneaker(req.params.id)

@@ -58,7 +58,7 @@ describe('Sneaker Routes', function() {
     });
 
     it('should return a 404 with id not found ', function(done) {
-      request.get(`localhost:${PORT}/api/sneaker?id=badID`)
+      request.get(`localhost:${PORT}/api/sneaker/badID`)
       .end((err, res) => {
         expect(res.status).to.equal(404);
         expect(err).to.be.an('error');
