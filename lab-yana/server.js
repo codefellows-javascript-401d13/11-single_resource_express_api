@@ -15,8 +15,21 @@ app.use(morgan('dev'));
 
 app.post('/api/blog', parseJSON, function(req, res, next) {
   debug('POST: /api/blog');
-  Blog.createBlog(req.body)
+  if (!req.body.id) {
+    Blog.createBlog(req.body)
+    .then(blog => res.json(blog))
+    .catch(err => next(err));
+    return;
+  }
+  Blog.updateBlog(req.body)
   .then(blog => res.json(blog))
+  .catch(err => next(err));
+});
+
+app.post('/api/blog/:id', function(req, res, next) { //sort of a put method
+  debug('POST(update): /api/blog');
+  Blog.updateBlog(req.params.id, req.body)
+  .then(blog => { res.json(blog); })
   .catch(err => next(err));
 });
 
@@ -44,12 +57,6 @@ app.delete('/api/blog/:id', function(req, res, next) {
   .catch(err => next(err));
 });
 
-app.put('/api/blog/:id', function(req, res, next) {
-  debug('PUT: /api/blog');
-  Blog.updateBlog(req.params.id, req.body)
-  .then(blog => res.json(blog))
-  .catch(err => next(err));
-});
 
 app.all('*', function(err, req, res, next) {
   debug('ALL: *');

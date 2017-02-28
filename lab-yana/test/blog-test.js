@@ -20,7 +20,6 @@ describe('Blog Routes', function() {
     });
     it('GET should return 404 not found', function(done) {
       request.get('localhost:3003/api/alsoWrongRoute')
-      .send( { name: 'test name', content: 'test content' } )
       .end((err, res) => {
         expect(err).to.be.an('error');
         expect(res.status).to.equal(404);
@@ -30,7 +29,6 @@ describe('Blog Routes', function() {
     });
     it('DELETE should return 404 not found', function(done) {
       request.delete('localhost:3003/api/wrongestRouteYet')
-      .send( { name: 'test name', content: 'test content' } )
       .end((err, res) => {
         expect(err).to.be.an('error');
         expect(res.status).to.equal(404);
@@ -61,23 +59,34 @@ describe('Blog Routes', function() {
         done();
       });
     });
+    it('should update an existing blog entry', function(done) {
+      request.post('localhost:3003/api/blog')
+      .send({ id: blog.id, name: 'updated test name', content: 'updated test content' })
+      .end((err, res) => {
+        if (err) return done(err);
+        console.log('res.body', res.body);
+        expect(res.status).to.equal(200);
+        expect(res.body.id).to.equal(blog.id);
+        expect(res.body.name).to.equal('updated test name');
+        expect(res.body.content).to.equal('updated test content');
+        done();
+      });
+    });
   });
   describe('GET: /api/blog', function() {
     it('should return a blog entry', function(done) {
       request.get(`localhost:3003/api/blog/${blog.id}`)
-      .send( { name: 'test name', content: 'test content' } )
       .end((err, res) => {
         if (err) return done(err);
         expect(res.status).to.equal(200);
-        expect(res.body.name).to.equal('test name');
-        expect(res.body.content).to.equal('test content');
+        expect(res.body.name).to.equal('updated test name');
+        expect(res.body.content).to.equal('updated test content');
         blog = res.body;
         done();
       });
     });
     it('should return a 404 not found', function(done) {
       request.get('localhost:3003/api/blog/wrongID')
-      .send( { name: 'test name', content: 'test content' } )
       .end((err, res) => {
         expect(err).to.be.an('error');
         expect(res.status).to.equal(404);
@@ -119,7 +128,7 @@ describe('Blog Routes', function() {
   describe('DELETE: /api/blog', function() {
     it('should delete a blog entry', function(done) {
       request.delete(`localhost:3003/api/blog/${blog.id}`)
-      .send( { name: 'test name', content: 'test content' } )
+      // .send( { name: 'test name', content: 'test content' } )
       .end((err, res) => {
         if (err) return done(err);
         expect(res.status).to.equal(204);
@@ -129,7 +138,7 @@ describe('Blog Routes', function() {
     });
     it('should fail to GET deleted entry', function(done) {
       request.get(`localhost:3003/api/blog/${blog.id}`)
-      .send( { name: 'test name', content: 'test content' } )
+      // .send( { name: 'test name', content: 'test content' } )
       .end((err, res) => {
         expect(err).to.be.an('error');
         expect(res.status).to.equal(404);

@@ -51,9 +51,16 @@ exports.fetchList = function(schemaName) {
     .catch(err => { return Promise.reject(createError(404, err.message)); });
 };
 
-exports.changeItem = function(schemaName, id, newContent) {
+exports.changeItem = function(schemaName, id, item) {
   debug('changeItem');
-  if (!newContent) return Promise.reject(createError(400, 'expected item'));
-  let item = exports.fetchItem(schemaName, id);
-  console.dir('item', item);
+  if (!item) return Promise.reject(createError(400, 'expected item'));
+  if (!schemaName) return Promise.reject(createError(400, 'expected schema name'));
+  if (!id) return Promise.reject(createError(400, 'expected id'));
+  var blog = JSON.parse(fs.readFile(`${__dirname}/../data/${schemaName}/${id}`).toString());
+  blog.content = item.content;
+  blog.name = item.name;
+  blog = JSON.stringify(blog);
+  return fs.writeFileProm(`${__dirname}/../data/${schemaName}/${id}.json`, blog)
+    .then( () => blog)
+    .catch(err => { return Promise.reject(createError(404, err.message)); } );
 };

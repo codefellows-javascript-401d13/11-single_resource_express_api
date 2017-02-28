@@ -35,9 +35,17 @@ Blog.deleteBlog = function(id) {
   return storage.deleteItem('blog', id);
 };
 
-Blog.updateBlog = function(id, newContent) {
+Blog.updateBlog = function(_blog) {
   debug('updateBlog');
-  return storage.changeItem('blog', id, newContent);
+  try {
+    let blog = new Blog(_blog.name, _blog.content);
+    console.log('new blog object', blog);
+    blog.id = _blog.id;
+    console.log('after changing id', blog);
+    return storage.createItem('blog', blog);
+  } catch(err) {
+    return Promise.reject(createError(400, err.message));
+  }
 };
 
 Blog.fetchBlogList = function() {
