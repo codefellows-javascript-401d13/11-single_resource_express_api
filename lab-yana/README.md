@@ -34,6 +34,10 @@ This is a single resource API using express middleware to make creating a server
     ```
     $ http DELETE :3003/api/blog/blogID
     ```
+  - update a blog entry (if you don't include the id, a new entry will be created instead):
+    ```
+    $ http POST :3003/api/blog id="blogID" name="new name" content="new content"
+    ```
 
 That's it!
 

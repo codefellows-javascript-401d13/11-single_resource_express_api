@@ -39,9 +39,7 @@ Blog.updateBlog = function(_blog) {
   debug('updateBlog');
   try {
     let blog = new Blog(_blog.name, _blog.content);
-    console.log('new blog object', blog);
     blog.id = _blog.id;
-    console.log('after changing id', blog);
     return storage.createItem('blog', blog);
   } catch(err) {
     return Promise.reject(createError(400, err.message));

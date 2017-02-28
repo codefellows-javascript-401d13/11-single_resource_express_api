@@ -2,6 +2,17 @@
 
 const request = require('superagent'); //allows us to test server stuff, yay!
 const expect = require('chai').expect;
+const exec = require('child_process').exec;
+
+var list = []; //array to store list of test IDs
+var cmd = 'rm data/blog/*';
+
+before(function(done) {
+  exec(cmd, function(err) { //this is to empty the data/blog directory of all files so the list tests can run
+    if (err) done (err);
+    done();
+  });
+});
 
 require('../server.js');
 
@@ -64,7 +75,6 @@ describe('Blog Routes', function() {
       .send({ id: blog.id, name: 'updated test name', content: 'updated test content' })
       .end((err, res) => {
         if (err) return done(err);
-        console.log('res.body', res.body);
         expect(res.status).to.equal(200);
         expect(res.body.id).to.equal(blog.id);
         expect(res.body.name).to.equal('updated test name');
@@ -93,42 +103,43 @@ describe('Blog Routes', function() {
         done();
       });
     });
-    // it('should return a list of stored blog entry filenames', function(done) {
-    //   var list = []; //array to store list of test IDs
-    //   list.push(`${blog.id}.json`); //put the thing we stored from the initial POST above
-    //   request.post('localhost:3003/api/blog')
-    //   .send( { name: 'test name', content: 'test content' } )
-    //   .end((err, res) => {
-    //     if (err) return done(err);
-    //     list.push(res.body.id);
-    //   });
-    //   request.post('localhost:3003/api/blog')
-    //   .send( { name: 'test name', content: 'test content' } )
-    //   .end((err, res) => {
-    //     if (err) return done(err);
-    //     list.push(res.body.id);
-    //   });
-    //   request.post('localhost:3003/api/blog')
-    //   .send( { name: 'test name', content: 'test content' } )
-    //   .end((err, res) => {
-    //     if (err) return done(err);
-    //     list.push(res.body.id);
-    //   });
-    //   console.log('array', list);
-    //   request.get('localhost:3003/api/blog')
-    //   .send( { name: 'test name', content: 'test conteent' } )
-    //   .end((err, res) => {
-    //     if (err) return done(err);
-    //     expect(res.status).to.equal(200);
-    //     expect(res.text).to.equal(JSON.stringify(list));
-    //     done();
-    //   });
-    // });
+  });
+  describe('GET (list): /api/blog', function() {
+    before(function(done) {
+      list.push(`${blog.id}.json`); //put the thing we stored from the initial POST above
+      request.post('localhost:3003/api/blog')
+      .send( { name: 'test name 1', content: 'test content 1' } )
+      .end((err, res) => {
+        if (err) return done(err);
+        list.push(res.body.id + '.json'); //I tried doing these with template literals and it pushed nothing into the array (???)
+      });
+      request.post('localhost:3003/api/blog')
+      .send( { name: 'test name 2', content: 'test content 2' } )
+      .end((err, res) => {
+        if (err) return done(err);
+        list.push(res.body.id + '.json');
+      });
+      request.post('localhost:3003/api/blog')
+      .send( { name: 'test name 3', content: 'test content 3' } )
+      .end((err, res) => {
+        if (err) return done(err);
+        list.push(res.body.id + '.json');
+      });
+      done();
+    });
+    it('should return a list of stored blog entry filenames', function(done) {
+      request.get('localhost:3003/api/blog')
+      .end((err, res) => {
+        if (err) return done(err);
+        expect(res.status).to.equal(200);
+        expect(res.text).to.equal(JSON.stringify(list));
+        done();
+      });
+    });
   });
   describe('DELETE: /api/blog', function() {
     it('should delete a blog entry', function(done) {
       request.delete(`localhost:3003/api/blog/${blog.id}`)
-      // .send( { name: 'test name', content: 'test content' } )
       .end((err, res) => {
         if (err) return done(err);
         expect(res.status).to.equal(204);
@@ -138,7 +149,6 @@ describe('Blog Routes', function() {
     });
     it('should fail to GET deleted entry', function(done) {
       request.get(`localhost:3003/api/blog/${blog.id}`)
-      // .send( { name: 'test name', content: 'test content' } )
       .end((err, res) => {
         expect(err).to.be.an('error');
         expect(res.status).to.equal(404);
