@@ -30,10 +30,19 @@ Guitar.createGuitar = function(_guitar) {
 
 Guitar.fetchGuitar = function(id) {
   debug('fetch guitar');
-  return storage.fetchItem('guitar', id);
+  try {
+    return storage.fetchItem('guitar', id);
+  } catch (err) {
+    console.log('I happened', err);
+    return Promise.reject(err);
+  }
 };
 
 Guitar.deleteGuitar = function(id) {
   debug('delete guitar');
-  return storage.deleteItem('guitar', id);
+  try {
+    return storage.deleteItem('guitar', id);
+  } catch (err) {
+    return Promise.reject(err);
+  }
 };
