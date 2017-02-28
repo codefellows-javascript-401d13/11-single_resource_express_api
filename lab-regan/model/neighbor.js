@@ -32,3 +32,9 @@ Neighbor.fetchNeighbor = function(id){
   debug('fetchNeighbor');
   return storage.fetchItem('neighbor', id);
 };//end fetchNeighbor
+
+
+Neighbor.deleteNeighbor = function(id){
+  debug('deleteNeighbor');
+  return storage.deleteItem('neighbor', id);
+};//end deleteNeighbor

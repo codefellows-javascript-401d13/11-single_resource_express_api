@@ -18,6 +18,15 @@ exports.createItem = function(schemaName, item){
   .catch( err => Promise.reject(createError(500, err.message)));
 };//end createItem
 
+
+exports.deleteItem = function(schemaName, id){
+  debug('deleteItem');
+  if(!schemaName) return Promise.reject(createError(400, 'expected schema name'));
+  if(!id) return Promise.reject(createError(400, 'expected id'));
+  return fs.unlinkProm(`${__dirname}/../data/${schemaName}/${id}.json`);
+};
+
+
 exports.fetchItem = function(schemaName, id){
   if(!schemaName) return Promise.reject(createError(400, 'expected schema'));
   if(!id) return Promise.reject(createError(400, 'expected id'));

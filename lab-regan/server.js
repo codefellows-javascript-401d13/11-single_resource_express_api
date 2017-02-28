@@ -35,6 +35,20 @@ app.post('/api/neighbor', jsonParser, function(req, res, next){
 });//end app.post /api/neighbor
 
 
+app.delete('/api/neighbor/:id', function(req, res, next)
+  {
+  debug('DELETE: /api/neighbor/:id');
+  Neighbor.deleteNeighbor(req.params.id)
+  .then(thing => {
+    debug('then block of delete in server.js');
+    res.status(204);
+    console.log(thing);
+  })
+  .catch(err => next(err));
+}
+);
+
+
 app.use(function(err, req, res, next){
   debug('error middleware');
   console.error('you caused an error:', err.message);
