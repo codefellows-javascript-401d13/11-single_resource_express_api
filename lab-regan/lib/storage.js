@@ -23,8 +23,10 @@ exports.deleteItem = function(schemaName, id){
   debug('deleteItem');
   if(!schemaName) return Promise.reject(createError(400, 'expected schema name'));
   if(!id) return Promise.reject(createError(400, 'expected id'));
-  return fs.unlinkProm(`${__dirname}/../data/${schemaName}/${id}.json`);
-};
+  return fs.unlinkProm(`${__dirname}/../data/${schemaName}/${id}.json`)
+  .then( () => thang )
+  .catch( err => Promise.reject(createError(500, err.message)));
+};//end deleteItem
 
 
 exports.fetchItem = function(schemaName, id){
@@ -39,5 +41,5 @@ exports.fetchItem = function(schemaName, id){
       return Promise.reject(createError(500, err.message));
     }
   })
-  .catch( err => Promise.reject(createError(400, err.message)));
+  .catch( err => Promise.reject(createError(404, err.message)));
 };//end fetchItem

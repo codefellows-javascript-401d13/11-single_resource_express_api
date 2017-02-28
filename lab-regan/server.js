@@ -9,15 +9,21 @@ const jsonParser = require('body-parser').json();
 const PORT = process.env.PORT || 3000;
 const app = express();
 
+const storage = require('./lib/storage.js');
 const Neighbor = require('./model/neighbor.js');
 
 app.use(morgan('dev'));
 
-//woo it works!
 app.get('/test', function(req,res){
   debug('GET: /test');
-  res.json({msg: 'test route worked oh yee'});
+  res.json({msg: 'test route works'});
 });//end get test
+
+app.get('/api/neighbor/', function(req,res, next){
+  debug('/api/neighbor/');
+  storage.fetchItem();
+  res.sendStatus(400);
+});
 
 app.get('/api/neighbor/:id', function(req,res, next)
 {
@@ -31,7 +37,9 @@ app.post('/api/neighbor', jsonParser, function(req, res, next){
   debug('POST: /api/neighbor');
   Neighbor.createNeighbor(req.body)
   .then( thing => res.json(thing))
-  .catch( err => next(err));
+  .catch( err => {
+    next(err)
+  });
 });//end app.post /api/neighbor
 
 
@@ -41,13 +49,12 @@ app.delete('/api/neighbor/:id', function(req, res, next)
   Neighbor.deleteNeighbor(req.params.id)
   .then(thing => {
     debug('then block of delete in server.js');
-    res.status(204);
-    console.log(thing);
+    res.sendStatus(204);
+    // res.end();
   })
   .catch(err => next(err));
 }
 );
-
 
 app.use(function(err, req, res, next){
   debug('error middleware');
