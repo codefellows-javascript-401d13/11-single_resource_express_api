@@ -3,7 +3,7 @@
 ===
 ## The build out of this API:
 - Created a HTTP server using express
-- Created an object constructor which then creates a simple resourse with three properties
+- Created an object constructor which then creates a simple resource with three properties
 -       1. id
 -       2. author
 -       3. entries
@@ -14,11 +14,31 @@
 ## Server Endpoints
  ### '/api/mine'
  - POST Request
+
+    $ http POST :3000/api/journal author='test author' entries='test entries'
+
  - GET Request
+
+    $ http GET localhost:3000/api/journal/sample-id-enter-here
+
  - DELETE Request
 
+    $ http DELETE localhost:3000/api/memo/sample-id-enter-here
+
 ## How to use this API:
--
+- Clone the repository to your local server
+- Install the dependencies
+  $ npm
+
+- Run to do the tests
+  $ mocha
+
+- Start the server
+  $ node server.js
+
+- Debug
+  $ npm start
+
 
 ## Tests
 -Wrote tests to ensure the /api/mine endpoint responds as described for each condition below:

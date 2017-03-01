@@ -36,10 +36,5 @@ Journal.fetchJournal = function(id) {
 //delete method below
 Journal.deleteJournal = function(id) {
   debug('deleteJournal', id);
-  return storage.deleteItem('portfolio', id);
-
-  Journal.fetchIDs = function () {
-    debug('fetchIDs');
-    return storage.availIDs('journal');
-  }
+  return storage.deleteItem('journal', id);
 };

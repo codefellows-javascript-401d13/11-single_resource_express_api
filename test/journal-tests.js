@@ -5,7 +5,7 @@ const expect = require('chai').expect;
 // const Journal = require('../model.journal.js');
 // const URL = 'http://localhost:3000';
 
-// require('../server.js');
+require('../server.js');
 
 
 describe('My Journal Routes', function(){
