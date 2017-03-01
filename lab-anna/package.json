@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "test": "DEBUG='note*' mocha",
     "start": "DEBUG='note*' node server.js"
   },
   "keywords": [],
