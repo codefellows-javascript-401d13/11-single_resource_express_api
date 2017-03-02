@@ -2,10 +2,14 @@
 
 const expect = require('chai').expect;
 const request = require('superagent');
-const Cat = require('../model/cats.js');
-const url = 'http://localhost:3000';
+const Cat = require('../model/cat.js');
+const PORT =process.env.PORT || 3000;
+
+process.env.MONGODB_URI = 'mongodb://localhost/cattest';
 
 require('../server.js');
+
+const url = `http://localhost:${PORT}`;
 
 const exampleCat = {
   gender: 'example gender',
@@ -13,26 +17,27 @@ const exampleCat = {
 };
 
 describe('Cat Routes', function() {
-
   describe('GET: /api/cat', function() {
     describe('with a valid id', function() {
       before( done => {
-        Cat.createItem(exampleCat)
+        new Cat(exampleCat).save()
         .then(cat => {
           this.tempCat = cat;
           done();
         })
-        .catch( err => done(err));
+        .catch(done);
       });
 
       after( done => {
-        Cat.deleteItem(this.tempCat.id)
-        .then( ()=> done())
-        .catch( err => done(err));
+        if (this.tempCat) {
+          Cat.remove({})
+          .then( ()=> done())
+          .catch(done);
+        };
       });
 
       it('should return a cat', done => {
-        request.get(`${url}/api/cat/${this.tempCat.id}`)
+        request.get(`${url}/api/cat/${this.tempCat._id}`)
         .end((err, res) => {
           if (err) return done(err);
           expect(res.status).to.equal(200);
@@ -42,14 +47,14 @@ describe('Cat Routes', function() {
           done();
         });
       });
+    });
 
-      describe('with an invalid id', function() {
-        it('should respond with a 404 status code', done => {
-          request.get(`${url}/api/cat/123456789`)
-          .end((err, res) => {
-            expect(res.status).to.equal(404);
-            done();
-          });
+    describe('with an invalid id', function() {
+      it('should respond with a 404 status code', done => {
+        request.get(`${url}/api/cat/123456789`)
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          done();
         });
       });
     });
@@ -59,10 +64,10 @@ describe('Cat Routes', function() {
     describe('with a valid body', function() {
       after( done => {
         if (this.tempCat) {
-          Cat.deleteItem(this.tempCat.id)
+          Cat.remove({})
           .then( ()=> done())
-          .catch( err => done(err));
-        }
+          .catch(done);
+        };
       });
 
       it('should return a cat', done => {
@@ -83,7 +88,7 @@ describe('Cat Routes', function() {
   describe('PUT: /api/cat', function() {
     describe('with a valid id and body', function() {
       before( done => {
-        Cat.createItem(exampleCat)
+        new Cat(exampleCat).save()
         .then( cat => {
           this.tempCat = cat;
           done();

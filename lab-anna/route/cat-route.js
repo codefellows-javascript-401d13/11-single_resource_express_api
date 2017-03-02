@@ -24,7 +24,7 @@ catRouter.put('/api/cat', jsonParser, function(req, res, next) {
   .catch(next);
 });
 
-beastRouter.delete('/api/cat', jsonParser, function(req, res, next) {
+catRouter.delete('/api/cat', jsonParser, function(req, res, next) {
   Cat.findByIdAndRemove(req.params.id)
   .then( cat => res.json(cat))
   .catch(next);
