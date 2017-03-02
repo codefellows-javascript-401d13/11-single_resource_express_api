@@ -1,16 +1,24 @@
 'use strict';
 
-const morgan = require('morgan');
 const express = require('express');
+const morgan = require('morgan');
+const cors = require('cors');
+const Promise = require('bluebird');
+const mongoose = require('mongoose');
 const createError = require('http-errors');
 const debug = require('debug')('note:server');
+const app = express();
 
-const noteRouter = require('./route/note-router.js');
+const beastRouter = require('./route/beast-router.js')
+const catRouter = require('./route/cat-router.js');
 const cors = require('./lib/cors-middleware.js');
 const errors = require('./lib/error-middleware.js');
 
 const PORT = process.env.PORT || 3000;
-const app = express();
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/listdev';
+
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI);
 
 app.use(morgan('dev'));
 app.use(cors);
