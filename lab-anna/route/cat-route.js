@@ -18,8 +18,8 @@ catRouter.get('/api/cat/:id', function(req, res, next) {
   .catch(next);
 });
 
-catRouter.put('/api/cat', jsonParser, function(req, res, next) {
-  Cat.findByIdAndUpdate(req.query.id, req.body)
+catRouter.put('/api/cat/:id', jsonParser, function(req, res, next) {
+  Cat.findByIdAndUpdate(req.params.id, req.body, {new: true})
   .then( cat => res.json(cat))
   .catch(next);
 });

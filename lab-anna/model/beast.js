@@ -1,6 +1,7 @@
 'use strict';
 
 const mongoose = require('mongoose');
+const createError = require('http-errors');
 const Schema = mongoose.Schema;
 
 const beastSchema = Schema({

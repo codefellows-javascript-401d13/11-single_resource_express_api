@@ -17,8 +17,8 @@ const exampleCat = {
 };
 
 describe('Cat Routes', function() {
-  describe('GET: /api/cat', function() {
-    describe('with a valid id', function() {
+  describe('GET: /api/cat/:id', function() {
+    describe('with a valid body', function() {
       before( done => {
         new Cat(exampleCat).save()
         .then(cat => {
@@ -33,7 +33,9 @@ describe('Cat Routes', function() {
           Cat.remove({})
           .then( ()=> done())
           .catch(done);
+          return;
         };
+        done();
       });
 
       it('should return a cat', done => {
@@ -41,19 +43,8 @@ describe('Cat Routes', function() {
         .end((err, res) => {
           if (err) return done(err);
           expect(res.status).to.equal(200);
-          expect(res.body.id).to.equal(this.tempCat.id);
-          expect(res.body.gender).to.equal(this.tempCat.gender);
-          expect(res.body.color).to.equal(this.tempCat.color);
-          done();
-        });
-      });
-    });
-
-    describe('with an invalid id', function() {
-      it('should respond with a 404 status code', done => {
-        request.get(`${url}/api/cat/123456789`)
-        .end((err, res) => {
-          expect(res.status).to.equal(404);
+          expect(res.body.gender).to.equal('example gender');
+          expect(res.body.color).to.equal('example color');
           done();
         });
       });
@@ -85,7 +76,7 @@ describe('Cat Routes', function() {
     });
   });
 
-  describe('PUT: /api/cat', function() {
+  describe('PUT: /api/cat/:id', function() {
     describe('with a valid id and body', function() {
       before( done => {
         new Cat(exampleCat).save()
@@ -93,28 +84,28 @@ describe('Cat Routes', function() {
           this.tempCat = cat;
           done();
         })
-        .catch( err => done(err));
+        .catch(done);
       });
 
       after( done => {
         if (this.tempCat) {
-          Cat.deleteItem(this.tempCat.id)
+          Cat.remove({})
           .then( ()=> done())
           .catch(done);
-        }
+          return;
+        };
+        done();
       });
 
       it('should return a cat', done => {
-        let updatecat = { gender: 'new gender', color: 'new color' };
-        request.put(`${url}/api/cat?id=${this.tempCat.id}`)
-        .send(updatecat)
+        let updateCat = { gender: 'new gender', color: 'new color' };
+        request.put(`${url}/api/cat/${this.tempCat._id}`)
+        .send(updateCat)
         .end((err, res) => {
           if (err) return done(err);
           expect(res.status).to.equal(200);
-          expect(res.body.id).to.equal(this.tempCat.id);
-          for (var prop in updatecat) {
-            expect(res.body[prop]).to.equal(updatecat[prop])
-          }
+          expect(res.body.gender).to.equal(updateCat.gender);
+          expect(res.body.color).to.equal(updateCat.color);
           done();
         });
       });
