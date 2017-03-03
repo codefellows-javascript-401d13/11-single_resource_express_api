@@ -48,11 +48,29 @@ describe('Cat Routes', function() {
           done();
         });
       });
+
+      it('should return 404 status if no id', done => {
+        request.get(`${url}/api/cat`)
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          done();
+        });
+      });
+
     });
   });
 
   describe('POST: /api/cat', function() {
-    describe('with a valid body', function() {
+    describe('post request', function() {
+      before( done => {
+        new Cat(exampleCat).save()
+        .then(cat => {
+          this.tempCat = cat;
+          done();
+        })
+        .catch(done);
+      });
+
       after( done => {
         if (this.tempCat) {
           Cat.remove({})
@@ -73,11 +91,20 @@ describe('Cat Routes', function() {
           done();
         });
       });
+
+      it('no body - status 400, bad request', done => {
+        request.post(`${url}/api/cat`)
+        .end((err, res) => {
+          expect(res.status).to.equal(400);
+          done();
+        });
+      });
+
     });
   });
 
   describe('PUT: /api/cat/:id', function() {
-    describe('with a valid id and body', function() {
+    describe('put request', function() {
       before( done => {
         new Cat(exampleCat).save()
         .then( cat => {
@@ -106,6 +133,22 @@ describe('Cat Routes', function() {
           expect(res.status).to.equal(200);
           expect(res.body.gender).to.equal(updateCat.gender);
           expect(res.body.color).to.equal(updateCat.color);
+          done();
+        });
+      });
+
+      it('no body - status 400, bad request', done => {
+        request.post(`${url}/api/cat`)
+        .end((err, res) => {
+          expect(res.status).to.equal(400);
+          done();
+        });
+      });
+
+      it('no id - status 404, not found', done => {
+        request.put(`${url}/api/cat`)
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
           done();
         });
       });
