@@ -9,7 +9,6 @@ const createError = require('http-errors');
 const debug = require('debug')('beast:server');
 const app = express();
 
-const beastRouter = require('./route/beast-route.js')
 const catRouter = require('./route/cat-route.js');
 const errors = require('./lib/error-middleware.js');
 
@@ -21,7 +20,6 @@ mongoose.connect(MONGODB_URI);
 
 app.use(morgan('dev'));
 app.use(cors());
-app.use(beastRouter);
 app.use(catRouter);
 app.use(errors);
 
