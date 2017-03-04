@@ -2,14 +2,14 @@
 
 const uuid = require('node-uuid');
 const createError = require('http-errors');
-const debug = require('debug')('11-single_resource_express_api:page');
+const debug = require('debug')('page');
 const storage = require('../lib/storage.js');
 
 const Page = module.exports = function(title, steak) {
   debug('page constructor');
 
   if (!title) throw createError(400, 'expected title');
-  if (!meat) throw createError(400, 'expected steak');
+  if (!steak) throw createError(400, 'expected steak');
 
   this.id = uuid.v1();
   this.title = title;
@@ -29,5 +29,5 @@ Page.createPage = function(_page) {
 
 Page.fetchPage = function(id) {
   debug('fetch page');
-  return storage.fetchItem('note', id);
+  return storage.fetchItem('page', id);
 };
