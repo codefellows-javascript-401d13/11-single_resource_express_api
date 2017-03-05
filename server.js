@@ -1,7 +1,6 @@
 'use strict';
 
 const express = require('express');
-// const Promise = require('bluebird');
 const morgan = require('morgan');
 const createError = require('http-errors');
 const jsonParser = require('body-parser').json();
@@ -19,6 +18,7 @@ app.get('/test', function(req, res) {
   debug('GET: /test');
   res.json({ msg: 'test route worked'});
 });
+
 
 app.listen(PORT, () => {
   debug(`server up: ${PORT}`);
