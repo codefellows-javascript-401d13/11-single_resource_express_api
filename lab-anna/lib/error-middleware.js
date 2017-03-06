@@ -15,6 +15,13 @@ module.exports = function(err, req, res, next) {
     return;
   };
 
+  if (err.name === 'ValidationError') {
+    err = createError(400, err.message);
+    res.status(err.status).send(err.name);
+    next();
+    return;
+  };
+
   debug('server error');
   err = createError(500, err.message);
   res.status(err.status).send(err.name);

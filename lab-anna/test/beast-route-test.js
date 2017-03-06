@@ -3,6 +3,8 @@
 const expect = require('chai').expect;
 const request = require('superagent');
 const Beast = require('../model/beast.js');
+const Cat = require('../model/cat.js');
+
 const PORT = process.env.PORT || 3000;
 
 process.env.MONGODB_URI = 'mongodb://localhost/beasttest';
@@ -10,9 +12,15 @@ process.env.MONGODB_URI = 'mongodb://localhost/beasttest';
 require('../server.js');
 
 const url = `http://localhost:${PORT}`;
+
 const exampleBeast = {
   kind: 'test beast kind',
   timestamp: new Date()
+};
+
+const exampleCat = {
+  gender: 'test cat gender',
+  color: 'test cat color'
 };
 
 describe('Beast Routes', function() {
@@ -34,6 +42,7 @@ describe('Beast Routes', function() {
         .end((err, res) => {
           if (err) return done(err);
           expect(res.status).to.equal(200);
+          expect(res.body.kind).to.equal('test beast kind')
           this.tempBeast = res.body;
           done();
         });
@@ -48,6 +57,10 @@ describe('Beast Routes', function() {
         new Beast(exampleBeast).save()
         .then( beast => {
           this.tempBeast = beast;
+          return Beast.findByIdAndAddCat(beast._id, exampleCat);
+        })
+        .then( cat => {
+          this.tempCat = cat;
           done();
         })
         .catch(done);
@@ -69,6 +82,8 @@ describe('Beast Routes', function() {
           if (err) return done(err);
           expect(res.status).to.equal(200);
           expect(res.body.kind).to.equal('test beast kind');
+          expect(res.body.cats.length).to.equal(1);
+          expect(res.body.cats[0].gender).to.equal(exampleCat.gender);
           done();
         });
       });
@@ -103,8 +118,10 @@ describe('Beast Routes', function() {
         .send(updateBeast)
         .end((err, res) => {
           if (err) return done(err);
+          let timestamp = new Date(res.body.timestamp);
           expect(res.status).to.equal(200);
           expect(res.body.kind).to.equal(updateBeast.kind);
+          expect(timestamp.toString()).to.equal(exampleBeast.timestamp.toString());
           done();
         });
       });

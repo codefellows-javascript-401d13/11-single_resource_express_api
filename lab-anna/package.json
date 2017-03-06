@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "DEBUG='beast*' node server.js",
-    "test": "DEBUG='beast*' ./node_modules/mocha/bin/mocha"
+    "start": "DEBUG='cat*' node server.js",
+    "test": "DEBUG='cat*' mocha"
   },
   "keywords": [],
   "author": "",

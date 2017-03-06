@@ -3,9 +3,9 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
-const Promise = require('bluebird');
 const mongoose = require('mongoose');
 const createError = require('http-errors');
+const Promise = require('bluebird');
 const debug = require('debug')('beast:server');
 const app = express();
 
@@ -14,7 +14,7 @@ const catRouter = require('./route/cat-route.js');
 const errors = require('./lib/error-middleware.js');
 
 const PORT = process.env.PORT || 3000;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/listdev';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/cat';
 
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
