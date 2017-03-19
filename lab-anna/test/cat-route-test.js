@@ -54,6 +54,25 @@ describe('Cat Routes', function() {
           done();
         });
       });
+
+      it('should return 404 status code, not found', done => {
+        request.post(`${url}/api/beast/cat`)
+        .send(exampleCat)
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          done();
+        });
+      });
+
+      it('should return 400 status code, bad request', done => {
+        request.post(`${url}/api/beast/${this.tempBeast.id}/cat`)
+        .send('bad cat')
+        .end((err, res) => {
+          expect(res.status).to.equal(400);
+          done();
+        });
+      });
+
     });
   });
 });

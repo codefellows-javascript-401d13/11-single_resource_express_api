@@ -3,7 +3,7 @@
 const expect = require('chai').expect;
 const request = require('superagent');
 const Beast = require('../model/beast.js');
-const Cat = require('../model/cat.js');
+// const Cat = require('../model/cat.js');
 
 const PORT = process.env.PORT || 3000;
 
@@ -25,14 +25,14 @@ const exampleCat = {
 
 describe('Beast Routes', function() {
   describe('POST: /api/beast', function() {
-    describe('with a valid body', function() {
-      after( done => {
+    describe('', function() {
+      afterEach( done => {
         if (this.tempBeast) {
           Beast.remove({})
           .then(() => done())
           .catch(done);
           return;
-        };
+        }
         done();
       });
 
@@ -42,8 +42,26 @@ describe('Beast Routes', function() {
         .end((err, res) => {
           if (err) return done(err);
           expect(res.status).to.equal(200);
-          expect(res.body.kind).to.equal('test beast kind')
+          expect(res.body.kind).to.equal('test beast kind');
           this.tempBeast = res.body;
+          done();
+        });
+      });
+
+      it('should return 404 status, not found', done => {
+        request.post(`${url}/api/`)
+        .send(exampleBeast)
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          done();
+        });
+      });
+
+      it('should return 400 status, bad request', done => {
+        request.post(`${url}/api/beast`)
+        .send('bad beast')
+        .end((err, res) => {
+          expect(res.status).to.equal(400);
           done();
         });
       });
@@ -51,8 +69,8 @@ describe('Beast Routes', function() {
   });
 
   describe('GET: /api/beast/:id', function() {
-    describe('with a valid body', function() {
-      before( done => {
+    describe('', function() {
+      beforeEach( done => {
         exampleBeast.timestamp = new Date();
         new Beast(exampleBeast).save()
         .then( beast => {
@@ -66,13 +84,13 @@ describe('Beast Routes', function() {
         .catch(done);
       });
 
-      after( done => {
+      afterEach( done => {
         if (this.tempBeast) {
           Beast.remove({})
           .then(() => done())
           .catch(done);
           return;
-        };
+        }
         done();
       });
 
@@ -87,12 +105,20 @@ describe('Beast Routes', function() {
           done();
         });
       });
+
+      it('should return 404 status, not found', done => {
+        request.get(`${url}/api/beast`)
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          done();
+        });
+      });
     });
   });
 
   describe('PUT: /api/beast/:id', function() {
-    describe('with a valid id and body', function() {
-      before( done => {
+    describe('', function() {
+      beforeEach( done => {
         // exampleBeast.timestamp = new Date();
         new Beast(exampleBeast).save()
         .then( beast => {
@@ -102,13 +128,13 @@ describe('Beast Routes', function() {
         .catch(done);
       });
 
-      after( done => {
+      afterEach( done => {
         if (this.tempBeast) {
           Beast.remove({})
           .then( ()=> done())
           .catch(done);
           return;
-        };
+        }
         done();
       });
 
@@ -125,6 +151,16 @@ describe('Beast Routes', function() {
           done();
         });
       });
+
+      it('should return 404 status, not found', done => {
+        request.put(`${url}/api/beast`)
+        .send('bad request')
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          done();
+        });
+      });
+
     });
   });
 });
